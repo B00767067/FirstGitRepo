@@ -7,6 +7,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -24,20 +25,31 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        final HorizontalLayout masterLayout = new HorizontalLayout();
         final VerticalLayout layout = new VerticalLayout();
+        final VerticalLayout layout1 = new VerticalLayout();
         
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
+        final TextField drugField = new TextField();
+        drugField.setCaption("Type drug name here:");
+        final TextField pDose = new TextField();
+        pDose.setCaption("Presdcribed dose");
 
-        Button button = new Button("Press Me");
+        Label logo = new Label();
+        
+
+        Button button = new Button("Press Me to calculate the volume");
         button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
+        Label logo1 = new Label("You want to calculate the volume for " + drugField.getValue() 
+                    + " where prescribed dose is " + pDose.getValue());
+                    layout1.addComponent(logo1);
+            
         });
+
+        layout.addComponents(drugField,pDose);        
         
-        layout.addComponents(name, button);
+        masterLayout.addComponents(layout, button, layout1);
         
-        setContent(layout);
+        setContent(masterLayout);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
