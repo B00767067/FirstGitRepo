@@ -2,6 +2,8 @@ package ie.anu;
 
 import javax.servlet.annotation.WebServlet;
 
+import java.sql.*;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -27,30 +29,35 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final HorizontalLayout masterLayout = new HorizontalLayout();
-        final VerticalLayout layout = new VerticalLayout();
-        final VerticalLayout layout1 = new VerticalLayout();
-        
-        final TextField drugField = new TextField();
-        drugField.setCaption("Type drug name here:");
-        final TextField pDose = new TextField();
-        pDose.setCaption("Presdcribed dose");
+        final HorizontalLayout layout = new HorizontalLayout();
 
-       
-
-        Button button = new Button("Press Me to calculate the volume");
-        button.addClickListener(e -> {
-        Label logo1 = new Label("You want to calculate the volume for " + drugField.getValue() 
-                    + " where prescribed dose is " + pDose.getValue());
-                    layout1.addComponent(logo1);
-            
-        });
-
-        layout.addComponents(drugField,pDose);        
+        //first step to connect with database
+        Connection connection = null;
         
-        masterLayout.addComponents(layout, button, layout1);
-        
-        setContent(masterLayout);
+        String connectionString = "jdbc:sqlserver://anuclassdb.database.windows.net:1433;" + 
+			  "database= classdb;" + 
+			  "user=anu@anuclassdb;" + 
+			  "password= Ulster12**;" + 
+			  "encrypt=true;" + 
+			  "trustServerCertificate=false;" + 
+			  "hostNameInCertificate=*.database.windows.net;" +
+              "loginTimeout=30;";
+           
+              
+
+              try 
+              {
+                  // Connect with JDBC driver to a database
+                  connection = DriverManager.getConnection(connectionString);
+                  // Add a label to the web app with the message and name of the database we connected to 
+                  layout.addComponent(new Label("Connected to database: " + connection.getCatalog()));
+              } 
+              catch (Exception e) 
+              {
+                  // This will show an error message if something went wrong
+                  layout.addComponent(new Label(e.getMessage()));
+              }
+              setContent(layout);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
