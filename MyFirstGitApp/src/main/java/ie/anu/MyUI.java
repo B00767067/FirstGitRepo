@@ -23,6 +23,8 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class MyUI extends UI {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final HorizontalLayout masterLayout = new HorizontalLayout();
@@ -34,8 +36,7 @@ public class MyUI extends UI {
         final TextField pDose = new TextField();
         pDose.setCaption("Presdcribed dose");
 
-        Label logo = new Label();
-        
+       
 
         Button button = new Button("Press Me to calculate the volume");
         button.addClickListener(e -> {
@@ -55,5 +56,7 @@ public class MyUI extends UI {
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+
+        private static final long serialVersionUID = 1L;
     }
 }
