@@ -10,14 +10,8 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.shared.ui.grid.*;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -48,7 +42,8 @@ public class MyUI extends UI {
 			  "hostNameInCertificate=*.database.windows.net;" +
               "loginTimeout=30;";
 
-              //step 3 add try and catch statement so as to know that you are connected to database         
+              //step 3 add try and catch statement so as to know that you are connected to database 
+              //all the queries will go under       
               
 
               try 
@@ -70,18 +65,17 @@ public class MyUI extends UI {
                                   rs.getDouble("amount")));
                   }
                   // Add my component, grid is templated with Customer
-Grid <Customer> myGrid = new Grid<>();
-// Set the items (List)
-myGrid.setItems(customers);
-// Configure the order and the caption of the grid
-myGrid.addColumn(Customer::getFirst_name).setCaption("Name");
-myGrid.addColumn(Customer::getLast_name).setCaption("Surname");
-myGrid.addColumn(Customer::getAmount).setCaption("Total Amount");
-myGrid.addColumn(Customer::isPaid).setCaption("Paid");
-
-// Add the grid to the list
-layout.addComponent(myGrid);
-              } 
+                 Grid <Customer> myGrid = new Grid<>();
+                 // Set the items (List)
+                myGrid.setItems(customers);
+                // Configure the order and the caption of the grid
+                myGrid.addColumn(Customer::getFirst_name).setCaption("Name");
+                myGrid.addColumn(Customer::getLast_name).setCaption("Surname");
+                myGrid.addColumn(Customer::getAmount).setCaption("Total Amount");
+                myGrid.addColumn(Customer::isPaid).setCaption("Paid");
+                // Add the grid to the list
+                layout.addComponent(myGrid);
+                } 
               catch (Exception e) 
               {
                   // This will show an error message if something went wrong
